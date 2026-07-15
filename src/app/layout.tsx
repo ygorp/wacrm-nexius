@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     default: "wacrm",
     template: "%s — wacrm",
   },
-  description: "Self-hostable CRM template for WhatsApp.",
+  description: "Template de CRM para WhatsApp, self-hosted.",
   robots: {
     index: false,
     follow: false,
@@ -107,7 +107,16 @@ export default async function RootLayout({
           dangerouslySetInnerHTML={{ __html: THEME_BOOT_SCRIPT }}
         />
       </head>
-      <body className="min-h-full bg-background text-foreground font-sans">
+      <body
+        className="min-h-full bg-background text-foreground font-sans"
+        // Some browser extensions (password managers, autofill, etc.)
+        // inject attributes onto <body> (e.g. data-atm-ext-installed)
+        // after SSR but before hydration, which trips React's mismatch
+        // warning. suppressHydrationWarning silences those extension-only
+        // attribute diffs — it applies to this element's own attributes,
+        // so genuine mismatches in children still surface.
+        suppressHydrationWarning
+      >
         <NextIntlClientProvider messages={messages} locale={locale}>
           <ThemeProvider>
             {children}

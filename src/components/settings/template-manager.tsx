@@ -275,7 +275,7 @@ export function TemplateManager() {
       const data = await res.json();
       if (!res.ok) {
         throw new Error(
-          data?.error || `${isEdit ? 'Edit' : 'Submit'} failed (HTTP ${res.status})`,
+          data?.error || `${isEdit ? 'Edição' : 'Envio'} falhou (HTTP ${res.status})`,
         );
       }
       // Refresh first, then close — re-opening the dialog
@@ -308,7 +308,7 @@ export function TemplateManager() {
       const res = await fetch('/api/whatsapp/templates/sync', { method: 'POST' });
       const data = await res.json();
       if (!res.ok) {
-        throw new Error(data?.error || `Sync failed (HTTP ${res.status})`);
+        throw new Error(data?.error || `Sincronização falhou (HTTP ${res.status})`);
       }
       toast.success(
         t('toastSyncCount', { total: data.total }) +
@@ -322,7 +322,7 @@ export function TemplateManager() {
             `${e.name} (${e.language})`,
         );
         const suffix =
-          data.errors.length > 3 ? `, +${data.errors.length - 3} more` : '';
+          data.errors.length > 3 ? `, +${data.errors.length - 3} mais` : '';
         toast.error(t('toastSyncFailed', { preview: preview.join(', ') + suffix }));
       }
       if (data.truncated) {
@@ -356,7 +356,7 @@ export function TemplateManager() {
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
-        throw new Error(data?.error || `Delete failed (HTTP ${res.status})`);
+        throw new Error(data?.error || `Exclusão falhou (HTTP ${res.status})`);
       }
       toast.success(t('toastDeleteSuccess'));
       setTemplates((prev) => prev.filter((t) => t.id !== target.id));
@@ -547,7 +547,7 @@ export function TemplateManager() {
                                 ? 'text-yellow-400'
                                 : 'text-red-400'
                           }`}
-                          title="Meta quality score"
+                          title="Pontuação de qualidade da Meta"
                         >
                           {template.quality_score}
                         </span>
@@ -775,8 +775,8 @@ export function TemplateManager() {
                 <div className="space-y-2 mt-2">
                   <Input
                     id="template-header-text"
-                    aria-label="Header text"
-                    placeholder={t('headerTextPlaceholder')}
+                    aria-label="Texto do cabeçalho"
+                    placeholder={t.raw('headerTextPlaceholder')}
                     value={form.header_content}
                     onChange={(e) =>
                       setForm({ ...form, header_content: e.target.value })
@@ -788,7 +788,7 @@ export function TemplateManager() {
                     <Input
                       id="template-header-sample"
                       aria-label={t('headerSampleAria')}
-                      placeholder={t('headerSamplePlaceholder')}
+                      placeholder={t.raw('headerSamplePlaceholder')}
                       value={form.header_sample}
                       onChange={(e) =>
                         setForm({ ...form, header_sample: e.target.value })
@@ -845,7 +845,7 @@ export function TemplateManager() {
                     // eslint-disable-next-line @next/next/no-img-element
                     <img
                       src={form.header_media_url}
-                      alt="Header sample"
+                      alt="Exemplo de cabeçalho"
                       className="max-h-28 rounded-md border border-border object-contain"
                     />
                   )}
@@ -865,7 +865,7 @@ export function TemplateManager() {
             <div className="space-y-2">
               <Label className="text-muted-foreground">{t('bodyText')}</Label>
               <Textarea
-                placeholder={t('bodyPlaceholder')}
+                placeholder={t.raw('bodyPlaceholder')}
                 value={form.body_text}
                 onChange={(e) =>
                   setForm({ ...form, body_text: e.target.value })
@@ -875,7 +875,7 @@ export function TemplateManager() {
                 className="bg-muted border-border text-foreground placeholder:text-muted-foreground resize-none"
               />
               <p className="text-[11px] text-muted-foreground">
-                {t('bodyHint')}
+                {t.raw('bodyHint')}
               </p>
 
               {bodyVarCount > 0 && (
@@ -1007,7 +1007,7 @@ export function TemplateManager() {
                       {btn.type === 'URL' && (
                         <div className="space-y-1 pl-1">
                           <Input
-                            placeholder={t('urlPlaceholder')}
+                            placeholder={t.raw('urlPlaceholder')}
                             value={btn.url}
                             onChange={(e) =>
                               updateButton(i, { url: e.target.value })
@@ -1016,7 +1016,7 @@ export function TemplateManager() {
                           />
                           {extractVariableIndices(btn.url).length > 0 && (
                             <Input
-                              placeholder={t('urlSamplePlaceholder')}
+                              placeholder={t.raw('urlSamplePlaceholder')}
                               value={btn.example ?? ''}
                               onChange={(e) =>
                                 updateButton(i, { example: e.target.value })

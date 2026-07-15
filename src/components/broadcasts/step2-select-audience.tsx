@@ -439,7 +439,7 @@ export function Step2SelectAudience({
           <div className="flex items-center gap-2">
             <Users className="h-4 w-4 text-primary" />
             <span className="text-sm text-foreground">
-              {estimatedCount.toLocaleString()}
+              {estimatedCount.toLocaleString('pt-BR')}
             </span>
             <span className="text-xs text-muted-foreground">estimated recipients</span>
           </div>
